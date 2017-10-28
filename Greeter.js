@@ -14,16 +14,19 @@
 	// languages, greetings, formalGreetings and printMessages are not exposed outside of this context until we tell it do so
 	var languages = ["english", "spanish"];
 	
+	// informal greetings
 	var greetings = {
 		english: "Hello",		
 		spanish: "Hola"
 	};
 	
+	// formal greetings
 	var formalGreetings = {
 		english: "Greetings",
 		spanish: "Saludos"
 	};
 	
+	// log print messages
 	var printMessages = {
 		english: "Logged in",
 		spanish: "Indicío sesión"
@@ -32,20 +35,24 @@
 	// Initially set prototype to an empty Object - well store any methods we want to use on our Object thats returned from calling Greeter
 	Greeter.prototype = {
 		
+		// returns the Objects full name
 		fullName: function(){
 			return this.firstName + " " + this.lastName;
 		},
 		
+		// checks if the language passes in is valid
 		validate: function(){
 			if(languages.indexOf(this.language) === -1){
 				throw new Error("Invalid language");
 			}
 		},
 		
+		// informal greeting message
 		greeting: function(){
 			return greetings[this.language] + " " + this.firstName + "!";
 		},
 		
+		// formal greeting message
 		formalGreeting: function(){
 			return formalGreetings[this.language] + ", " + this.fullName();
 		},
@@ -54,12 +61,14 @@
 		greet: function(formal){
 			var message;
 			
+			// checks if there is a value and will be either coerced to undefined or null
 			if(formal){
 				message = this.formalGreeting();
 			} else  {
 				message = this.greeting();
 			}
 			
+			// prints to the console
 			if(console){
 				console.log(message);
 			}
@@ -90,14 +99,17 @@
 		},
 		
 		DOMGreeting: function(selector, formal){
+			// checks if jquery is loaded
 			if(!$){
 				throw new Error("jQuery is not loaded");
 			}
 			
+			// checks if we passed in a selector
 			if(!selector){
 				throw new Error("Missing jQuery selector");
 			}
 			
+			// checks which message to return
 			var message;
 			if(formal){
 				message = this.formalGreeting();
@@ -105,8 +117,10 @@
 				message = this.greeting();
 			}
 			
+			// updates the html of the selector passed in with our message
 			$(selector).html(message);
 			
+			// makes it chainable
 			return this;
 		}
 		
